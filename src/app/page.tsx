@@ -1,65 +1,99 @@
-import Image from "next/image";
+"use client";
+import Error from "@/components/Error";
+import Grid from "@/components/Grid";
+import Modal from "@/components/Modal";
+import SearchBar from "@/components/SearchBar";
+import SkeletonCard from "@/components/Skeleton";
+import SortDropdown from "@/components/SortDropdown";
+import UserCard from "@/components/UserCard";
+import { userData } from "@/data/staticData";
+import { closeModal, openModal, setSearch, setSortBy } from "@/features/ui/uiSlice";
+import { fetchUsers } from "@/features/users/usersSlice";
+import useDeabounce from "@/hooks/useDebounce";
+import { AppDispatch, RootState } from "@/store";
+import { Contact, RotateCw } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    data: users,
+    loading,
+    error,
+  } = useSelector((s: RootState) => s.users);
+  const { search, sortBy, selectedUserId } = useSelector(
+    (s: RootState) => s.ui
+  );
+
+  const selectedUser = users.find((u) => u.id === selectedUserId);
+
+  const debouncedSearch = useDeabounce(search, 400);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  const effectiveUsers = users.length > 0 ? users : userData;
+
+  const filteredUsers = effectiveUsers
+    .filter((u) => u.name.toLowerCase().includes(debouncedSearch.toLowerCase()))
+    .sort((a, b) => {
+      const aVal = sortBy === "name" ? a.name : a.company.name;
+      const bVal = sortBy === "name" ? b.name : b.company.name;
+      return aVal.localeCompare(bVal);
+    });
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="p-6 bg-white min-h-screen">
+      <header className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+        <div className="flex items-center gap-2">
+          <Contact size={28} className="text-black" />
+          <h1 className="text-2xl font-semibold text-black">
+            Users Directory
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="flex gap-3 sm:flex-row flex-col w-full sm:w-auto">
+          <button
+            onClick={() => dispatch(fetchUsers())}
+            disabled={loading}
+            className="inline-flex items-center gap-2 border border-gray-200 bg-white rounded-md p-2 cursor-pointer text-sm hover:border-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <RotateCw size={18} className="text-gray-500 font-semibold" />
+          </button>
+          <SearchBar value={search} onChange={(v) => dispatch(setSearch(v))} />
+          <SortDropdown
+            value={sortBy}
+            onChange={(v) => dispatch(setSortBy(v))}
+          />
         </div>
-      </main>
-    </div>
+      </header>
+
+      {loading && (
+        <Grid>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </Grid>
+      )}
+
+      {error && (
+        <Error retry={() => dispatch(fetchUsers())} />
+      )}
+
+      {!loading && !error && (
+        <Grid>
+          {filteredUsers.map((user) => (
+            <UserCard key={user.id} user={user} onClick={() => dispatch(openModal(user.id))} />
+          ))}
+        </Grid>
+      )}
+
+      <Modal
+        open={!!selectedUser}
+        onClose={() => dispatch(closeModal())}
+        user={selectedUser}
+      />
+    </main>
   );
 }
