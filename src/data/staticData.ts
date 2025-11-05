@@ -161,3 +161,22 @@ export const userData = [
     },
   },
 ];
+
+
+export const roles = [
+  "Frontend Developer",
+  "Backend Developer",
+  "Full Stack Engineer",
+  "UI/UX Designer",
+  "Product Designer",
+  "DevOps Engineer",
+  "Mobile App Developer",
+  "QA Engineer",
+  "Software Engineer",
+  "Project Manager",
+  "Data Analyst",
+  "Product Manager",
+  "System Architect",
+  "Machine Learning Engineer",
+  "Graphic Designer",
+];

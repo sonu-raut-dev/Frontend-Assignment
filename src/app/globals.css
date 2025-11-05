@@ -19,9 +19,30 @@
   }
 }
 
+@layer utilities{
+  .bg-card {
+    background-color: #F9FAFB;
+  }
+  .inactive-bg-card {
+    background-color: #F7F7F7;
+  }
+  .text-card-gray{
+    color: #5C5C5C;
+  }
+  .active-bg{
+    background-color: #DCF2FD;
+  }
+  .inactive-bg{
+    background-color: #DFDFDF;
+  }
+  .card-shadow{
+    box-shadow: 0px 14px 4px 0px #00000014;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Outfit', sans-serif;
 ;
 }

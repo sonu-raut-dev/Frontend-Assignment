@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { ListFilter, ChevronDown } from "lucide-react";
 
 type SortOption = "name" | "company";
 
@@ -34,16 +33,15 @@ export default function SortDropdown({ value, onChange }: Props) {
     <div ref={dropdownRef} className="relative">
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className=" relative inline-flex items-center cursor-pointer justify-between gap-2 border w-full border-gray-200 bg-white rounded-md px-3 py-2 text-sm hover:border-gray-300 transition"
+        className=" relative inline-flex items-center cursor-pointer justify-between gap-2 border w-full border-gray-200 hover:border-gray-700 bg-white rounded-md px-3 py-2 text-sm transition"
       >
         <div className="inline-flex items-center gap-2">
-            <ListFilter size={14} className="text-gray-500" />
+            <span className="ri-filter-3-line text-base text-gray-500 leading-none" />
             <span className="font-medium text-gray-900">Sort by:</span>
             <span className="text-gray-600">{selectedLabel}</span>
         </div>
-        <ChevronDown
-          size={14}
-          className={`text-gray-400 transition-transform ${open ? "rotate-180" : ""}`}
+        <span
+          className={`ri-arrow-down-s-line pt-0.5 text-lg leading-none text-gray-400 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -56,7 +54,7 @@ export default function SortDropdown({ value, onChange }: Props) {
                 onChange(opt.value);
                 setOpen(false);
               }}
-              className={`w-full text-left px-4 py-2 text-sm rounded-md transition ${
+              className={`w-full text-left cursor-pointer px-4 py-2 text-sm rounded-md transition ${
                 value === opt.value
                   ? "bg-gray-100 text-gray-900 font-semibold"
                   : "text-gray-700 hover:bg-gray-50"

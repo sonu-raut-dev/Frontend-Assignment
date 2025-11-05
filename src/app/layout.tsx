@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
-import { Montserrat } from 'next/font/google';
+import { Outfit } from 'next/font/google';
 import "./globals.css";
 import ReduxProvider from "@/store/ReduxProvider";
+import 'remixicon/fonts/remixicon.css'
+import SideNav from "@/components/SideNav";
+import Breadcrumb from "@/components/BreadCrumb";
 
-const montserrat = Montserrat({
+
+const outfit = Outfit({
   subsets: ['latin'],
-  weight: ['200','300','400', '500', '600', '700'],
-  variable: '--font-montserrat', 
-  display: 'swap'
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-outfit',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -23,10 +27,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.variable}`}
+        className={`${outfit.variable}`}
       >
         <ReduxProvider>
-          {children}
+         <div className="flex min-h-screen">
+            <aside className="hidden sm:block">
+              <SideNav />
+            </aside>
+
+            <main className="flex-1 flex flex-col overflow-hidden bg-[#F9FAFB]">
+              <Breadcrumb
+                breadcrumb={[{type: "icon", content: "user-2-line"}, {type: "text", content: "User Directory"}]}
+              />
+              <div className="flex-1 overflow-y-auto">
+                {children}
+              </div>
+            </main>
+          </div>
         </ReduxProvider>
       </body>
     </html>

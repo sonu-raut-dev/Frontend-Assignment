@@ -1,19 +1,28 @@
-import { Ban } from 'lucide-react'
-import Image from 'next/image'
-import React from 'react'
+import React from "react";
 
-const Error = ({retry}:{retry:() => void}) => {
+const Error = ({ retry }: { retry: () => void }) => {
   return (
-    <div className='flex items-center justify-center gap-4 flex-col'>
-        <Ban size={72} className='text-gray-600'/>
-        <span className='text-black font-semibold text-lg'>Failed to load users. Please try again.</span>
-        <button onClick={retry} 
-            className='py-2 px-3 bg-amber-600 cursor-pointer rounded-lg uppercase text-white font-semibold hover:bg-amber-700 transition'
-        >
-            Retry
-        </button>
-    </div>
-  )
-}
+    <div className="flex flex-col items-center justify-center text-center py-24 px-6">
+      <div className="w-20 h-20 flex items-center justify-center rounded-full bg-red-50 border border-red-100 shadow-sm mb-5">
+        <span className="ri-prohibited-line text-4xl leading-none text-red-500" />
+      </div>
 
-export default Error
+      <h2 className="text-lg font-semibold text-gray-900 mb-1">
+        Oops! Something went wrong
+      </h2>
+      <p className="text-sm text-gray-600 max-w-sm mb-6">
+        We couldn’t load the user list right now. It might be a network issue or
+        a temporary glitch. Please try again.
+      </p>
+      <button
+        onClick={retry}
+        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-md text-white bg-[#3786FF] hover:bg-[#2f74e0] active:scale-[0.98] transition-all shadow-sm"
+      >
+        <i className="ri-refresh-line text-base" />
+        Retry Loading
+      </button>
+    </div>
+  );
+};
+
+export default Error;

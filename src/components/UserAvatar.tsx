@@ -1,18 +1,18 @@
 import React, { useMemo } from 'react';
 
-const bgColors = [
-  'bg-red-500',
-  'bg-green-500',
-  'bg-blue-500',
-  'bg-yellow-500',
-  'bg-purple-500',
-  'bg-pink-500',
-  'bg-indigo-500',
-  'bg-teal-500',
+const bgPalette = [
+  '#ef4444', 
+  '#22c55e', 
+  '#3b82f6', 
+  '#eab308',
+  '#a855f7', 
+  '#ec4899', 
+  '#6366f1', 
+  '#14b8a6', 
 ];
 
 const UserAvatar = ({ name }: { name: string }) => {
-   const initials = React.useMemo(() => {
+   const initials = useMemo(() => {
     if (!name) return '?';
     const parts = name.trim().split(/\s+/);
     const first = parts[0]?.[0] ?? '';
@@ -21,14 +21,18 @@ const UserAvatar = ({ name }: { name: string }) => {
   }, [name]);
   
   const bgColor = useMemo(() => {
-    if (!name) return bgColors[0];
-    const index = name.length % bgColors.length;
-    return bgColors[index];
+    if (!name) return bgPalette[0];
+    const index = name.length % bgPalette.length;
+    return bgPalette[index];
   }, [name]);
 
   return (
     <div
-      className={`${bgColor} rounded-full w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center border border-black`}
+        style={{
+        backgroundColor: bgColor,
+        boxShadow: `0 2px 6px ${bgColor}60`,
+      }}
+      className={`rounded-full w-8 h-8 sm:w-8 sm:h-8 flex items-center justify-center border`}
     >
       <p className="text-white text-xs sm:text-xs font-semibold">{initials}</p>
     </div>
