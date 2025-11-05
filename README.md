@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧩 Frontend Developer Assignment — Users Directory
 
-## Getting Started
+A **responsive card-view dashboard** built with **Next.js**, **TypeScript**, **Redux Toolkit**, and **Tailwind CSS**, inspired by the Dribbble shot _Rentabel — Card View of Orders_.
 
-First, run the development server:
+---
+
+## ⚙️ Setup (Run Locally)
 
 ```bash
+# 1) Clone
+git clone <your-repo-url>
+cd frontend-assignment
+
+# 2) Install deps
+npm install
+# (or yarn/pnpm/bun)
+
+# 3) Dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# open http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Category | Technology | Description |
+|-----------|-------------|--------------|
+| **Framework** | [Next.js 14](https://nextjs.org/) | React framework for SSR, routing & performance |
+| **Language** | [TypeScript](https://www.typescriptlang.org/) | Strongly typed JavaScript for maintainable code |
+| **State Management** | [Redux Toolkit](https://redux-toolkit.js.org/) | Simplified global state management |
+| **API Handling** | [Axios](https://axios-http.com/) | Promise-based HTTP client for data fetching |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) | Utility-first CSS framework for responsive design |
+| **UI Components** | [Lucide React](https://lucide.dev/) & [Remix Icons](https://remixicon.com/) | Scalable SVG icon libraries |
+| **Fonts** | [Outfit](https://fonts.google.com/specimen/Outfit) | Clean, modern sans-serif font used throughout UI |
+| **Linting & Formatting** | ESLint + Prettier | Ensures consistent code quality and style |
+| **Deployment** | [Vercel](https://vercel.com/) | Cloud platform optimized for Next.js apps |
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 What's Implemented
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🧩 Core Functionality
+- Fetches user data from **[JSONPlaceholder API](https://jsonplaceholder.typicode.com/users)**
+- Displays users in a **responsive card grid** (1 / 2 / 4 columns for mobile, tablet, desktop)
+- Each **User Card** shows:
+  - Avatar with user initials  
+  - Name and a **randomly assigned role**, since the API does not provide any designation field  
+  - Company name and city  
+  - Status chip (Active / Inactive)  
+  - “Details” button to view more info
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+### 🔍 Search & Sort
+- **Debounced Search:** Filters users by name (400ms delay)
+- **Sort Dropdown:** Sorts users alphabetically by:
+  - Name  
+  - Company
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 📦 Modal View
+- Opens on card click  
+- Displays full user details:
+  - Phone  
+  - Website  
+  - Complete address (street, suite, city, zipcode)
+- Click-away listener to close modal
+
