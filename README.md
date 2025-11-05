@@ -8,16 +8,17 @@ A **responsive card-view dashboard** built with **Next.js**, **TypeScript**, **R
 
 ```bash
 # 1) Clone
-git clone <your-repo-url>
+git clone https://github.com/sonu-raut-dev/Frontend-Assignment.git
 cd frontend-assignment
 
 # 2) Install deps
 npm install
-# (or yarn/pnpm/bun)
 
 # 3) Dev server
 npm run dev
 # open http://localhost:3000
+
+```
 
 
 ## 🛠️ Tech Stack
