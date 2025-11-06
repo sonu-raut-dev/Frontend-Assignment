@@ -37,7 +37,7 @@ export default function UserCard({ user, onClick }: Props) {
 
       <div className="h-px w-full bg-[#E7E7E7]"></div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="flex justify-between sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <UserAvatar name={user.name} />
           <div className="min-w-0">
